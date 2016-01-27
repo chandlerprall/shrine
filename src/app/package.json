@@ -1,0 +1,16 @@
+{
+  "name": "@shrine/app",
+  "version": "1.0.0",
+  "description": "entry point of application",
+  "main": "AppView.jsx",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@shrine/header": "*",
+    "@shrine/footer": "*",
+    "react": "^0.14.6"
+  },
+  "license": "Zlib"
+}
