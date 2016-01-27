@@ -9,16 +9,31 @@ import gulpif from 'gulp-if';
 import babel from 'gulp-babel';
 import {MODULE_PREFIX, ENTRY_MODULE, SRC_DIR, MODULES_BUILD_DIR, DEPLOY_DIR} from './build-constants.js';
 
+/**
+ * Tests if the file's extension is .js or .jsx
+ * @param file
+ * @returns {boolean}
+ */
 function isJsFile(file) {
 	const extname = path.extname(file.path);
 	return extname === '.js' || extname === '.jsx';
 }
 
+/**
+ * Tests if te file's name is `package.json`
+ * @param file
+ * @returns {boolean}
+ */
 function isPackageJsonFile(file) {
 	const filename = path.basename(file.path);
 	return filename === 'package.json';
 }
 
+/**
+ * gulp plugin to update a custom module's package.json in two ways:
+ * 1. if the package's `main` field points to a `.jsx` file rename it to a `.js` extension to match Babel's output
+ * 2. update any dependencies on custom modules to point locally where those modules are built, used by npm during the install step
+ */
 function updateModulesPackages() {
 	return through2.obj(function(file, enc, cb) {
 		if (file.isNull()) {
