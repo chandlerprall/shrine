@@ -92,5 +92,9 @@ gulp.task('copy-entry-module', ['transpile-src'], () =>
 );
 
 gulp.task('build', ['copy-entry-module'], () => {
+	// remove the existing `node_modules/MODULE_PREFIX` directory to make way for changes
+	execSync(`rm -rf ${path.join('node_modules', MODULE_PREFIX)}`, {cwd: DEPLOY_DIR});
+
+	// install all dependencies, custom and external
 	execSync('npm install', {cwd: DEPLOY_DIR});
 });
