@@ -10,6 +10,7 @@
   "dependencies": {
     "@shrine/header": "*",
     "@shrine/footer": "*",
+    "@shrine/util": "*",
     "react": "^0.14.6"
   },
   "license": "Zlib"

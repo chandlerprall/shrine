@@ -4,7 +4,7 @@
   "description": "Boilerplate monolith repo for modular JavaScript development",
   "scripts": {
     "build-src": "node ./node_modules/babel-cli/bin/babel-node ./node_modules/.bin/gulp",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "find . -name '*.test.js' | xargs ./node_modules/.bin/mocha --compilers js:babel-register"
   },
   "repository": {
     "type": "git",
@@ -35,6 +35,7 @@
     "gulp-if": "^2.0.0",
     "gulp-rename": "^1.2.2",
     "gulp-util": "^3.0.7",
+    "mocha": "^2.4.4",
     "through2": "^2.0.0"
   }
 }

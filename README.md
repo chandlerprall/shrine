@@ -4,12 +4,24 @@ This repo demonstrates how to setup and build many custom modules from a single 
 
 The example modules in the `src` folder use React only to show support for external modules, there is absolutely no requirement or constraint on external npm modules you want to use.
 
+## Why
+I strongly believe that individually managed modules are an incredibly powerful asset to any codebase. We've seen the tremendous impact npm has had on the JavaScript community, and these modules' use is not restricted to only node, but thanks to projects like webpack and Browserify these modules can be bundled up for use in the browser as well.
+
+Having to create and maintain these modules as separate entities does add a burden on the developer, one of the most painful I've experience is the need to constantly publish my custom modules to a private repository even though they are only used in my project - `npm publish` does a lot and is an expensive operation.
+
+To avoid publishing all of the modules Shrine's build step restructures the modules in a way npm can understand without needing to publish anything, and can still use external modules from the npm repository. This gives all of the benefits we see in modules but greatly reduces the pain of working with them directly.
+
 ## Building
 Building creates a `build/deploy` directory which is the final result of assembling custom modules and installing any external dependencies. This directory is immediately ready to `require` in node or bundle with your favorite tool such as [webpack](https://webpack.github.io/) or [Browserify](http://browserify.org/). 
 
 1. `$ cd shrine`
 2. `$ npm install`
 3. `$ gulp build`
+
+## Running tests
+Tests are run via `$ npm test`
+
+`npm install` will include a local copy of [Mocha](https://mochajs.org/) which is used to run any test files in the form of `*.test.js`, for example [util.test.js](https://github.com/chandlerprall/shrine/tree/master/src/util/tests/util.test.js).
 
 ## Custom modules
 When working with custom modules there is a very real chance your name will conflict with one of the 230k modules in npm. To avoid this, the custom modules are prefixed with the `@shrine` scope; for example the [`app` module's name](https://github.com/chandlerprall/shrine/blob/master/src/app/package.json) is `@shrine/app`. This scope is configurable (see below). The `package.json` files also set `"private": true` which will prevent accidental publishing to npm.

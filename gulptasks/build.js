@@ -77,7 +77,8 @@ function updateModulesPackages() {
 gulp.task('transpile-src', [], () =>
 	gulp.src(path.join(SRC_DIR, '**', '*'), {nodir: true})
 		.pipe(rename((filepath) => {
-			const pkgLocation = findup('package.json', {cwd: path.join(SRC_DIR, filepath.dirname), nonull: true});
+			const pkgLocation = findup('package.json', {cwd: path.join(SRC_DIR, filepath.dirname)});
+			console.log(pkgLocation);
 			const {name: moduleName} = require(pkgLocation);
 			filepath.dirname = moduleName;
 		}))
