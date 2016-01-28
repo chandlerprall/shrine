@@ -5,11 +5,11 @@ This repo demonstrates how to setup and build many custom modules from a single 
 The example modules in the `src` folder use React only to show support for external modules, there is absolutely no requirement or constraint on external npm modules you want to use.
 
 ## Why
-I strongly believe that individually managed modules are an incredibly powerful asset to any codebase. We've seen the tremendous impact npm has had on the JavaScript community, and these modules' use is not restricted to only node, but thanks to projects like webpack and Browserify these modules can be bundled up for use in the browser as well.
+I strongly believe that individually managed modules are an incredibly powerful asset to any codebase. We've seen the tremendous impact npm has had on the JavaScript community, and these the use of these modules is not restricted to node, but thanks to projects like webpack and Browserify they can be bundled up for use in the browser as well.
 
-Having to create and maintain these modules as separate entities does add a burden on the developer, one of the most painful I've experience is the need to constantly publish my custom modules to a private repository even though they are only used in my project - `npm publish` does a lot and is an expensive operation.
+Having to create and maintain these modules as separate entities does add a burden on the developer, one of the most painful I've experienced is the need to constantly publish my custom modules to a private repository even though they are only used in my project - `npm publish` does a lot and is an expensive operation.
 
-To avoid publishing all of the modules Shrine's build step restructures the modules in a way npm can understand without needing to publish anything, and can still use external modules from the npm repository. This gives all of the benefits we see in modules but greatly reduces the pain of working with them directly.
+To avoid publishing all of the modules, Shrine's build step restructures them in a way npm can understand without the need to publish anything, and can still use external modules from the npm repository. This gives all of the benefits we've found with modules but greatly reduces the pain of developing them.
 
 ## Building
 Building creates a `build/deploy` directory which is the final result of assembling custom modules and installing any external dependencies. This directory is immediately ready to `require` in node or bundle with your favorite tool such as [webpack](https://webpack.github.io/) or [Browserify](http://browserify.org/). 
