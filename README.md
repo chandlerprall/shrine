@@ -5,7 +5,7 @@ This repo demonstrates how to setup and build many custom modules from a single 
 The example modules in the `src` folder use React only to show support for external modules, there is absolutely no requirement or constraint on external npm modules you want to use.
 
 ## Why
-I strongly believe that individually managed modules are an incredibly powerful asset to any codebase. We've seen the tremendous impact npm has had on the JavaScript community, and these the use of these modules is not restricted to node, but thanks to projects like webpack and Browserify they can be bundled up for use in the browser as well.
+I strongly believe that individually managed modules are an incredibly powerful asset to any codebase. We've seen the tremendous impact npm has had on the JavaScript community, and use of modules is not restricted to node, but thanks to projects like webpack and Browserify they can be bundled up for use in the browser as well.
 
 Having to create and maintain these modules as separate entities does add a burden on the developer, one of the most painful I've experienced is the need to constantly publish my custom modules to a private repository even though they are only used in my project - `npm publish` does a lot and is an expensive operation.
 
