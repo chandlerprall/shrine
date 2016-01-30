@@ -1,22 +1,25 @@
 import React from 'react';
-import Header from '@shrine/header';
-import Footer from '@shrine/footer';
-import {safeSort} from '@shrine/util';
-import {colors} from './appdata.json';
+import {render} from 'react-dom';
+import {Router, Route, Link, browserHistory} from 'react-router';
+import IndexView from '@shrine/indexView';
+import DetailsView from '@shrine/detailsView';
 
-const sortedColors = safeSort(colors);
-
-export default function AppView() {
+function AppView() {
 	return (
 		<div>
-			<Header/>
-			<strong>A sorted list of colors</strong>
-			<ul>
-				{sortedColors.map((color) => color)}
-			</ul>
-			<Footer/>
+			<h1>webbundle recipe</h1>
+			<Router history={browserHistory}>
+				<Route path="/" component={IndexView}/>
+				<Route path="/details" component={DetailsView}/>
+			</Router>
 		</div>
 	);
 }
 
 AppView.displayName = 'AppView';
+
+// bootstrap the application
+render(
+	React.createElement(AppView),
+	document.querySelector('#container')
+);

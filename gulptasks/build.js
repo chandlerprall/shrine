@@ -1,13 +1,14 @@
-import {execSync} from 'child_process';
+import {execSync, spawn} from 'child_process';
 import path from 'path';
 import findup from 'findup-sync';
 import through2 from 'through2';
 import gulp from 'gulp';
 import gulputil from 'gulp-util';
 import rename from 'gulp-rename';
+import browserify from 'gulp-browserify';
 import gulpif from 'gulp-if';
 import babel from 'gulp-babel';
-import {MODULE_PREFIX, ENTRY_MODULE, SRC_DIR, MODULES_BUILD_DIR, DEPLOY_DIR} from './build-constants.js';
+import {MODULE_PREFIX, ENTRY_MODULE, SRC_DIR, SERVER_DIR, PUBLIC_DIR, MODULES_BUILD_DIR, DEPLOY_DIR} from './build-constants.js';
 
 /**
  * Tests if the file's extension is .js or .jsx
@@ -91,10 +92,28 @@ gulp.task('copy-entry-module', ['transpile-src'], () =>
 		.pipe(gulp.dest(DEPLOY_DIR))
 );
 
-gulp.task('build', ['copy-entry-module'], () => {
+gulp.task('install-dependencies', ['copy-entry-module'], () => {
 	// remove the existing `node_modules/MODULE_PREFIX` directory to make way for changes
 	execSync(`rm -rf ${path.join('node_modules', MODULE_PREFIX)}`, {cwd: DEPLOY_DIR});
 
 	// install all dependencies, custom and external
 	execSync('npm install', {cwd: DEPLOY_DIR});
+});
+
+gulp.task('build', ['install-dependencies'], () =>
+	gulp.src(path.join(DEPLOY_DIR, 'AppView.js'))
+		.pipe(browserify())
+		.pipe(rename('bundle.js'))
+		.pipe(gulp.dest(path.join(PUBLIC_DIR)))
+);
+
+gulp.task('start-server', ['build'], () => {
+	spawn(
+		'node',
+		['server'],
+		{
+			cwd: SERVER_DIR,
+			stdio: 'inherit'
+		}
+	)
 });

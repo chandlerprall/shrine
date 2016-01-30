@@ -4,14 +4,12 @@
   "description": "entry point of application",
   "main": "AppView.jsx",
   "private": true,
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "dependencies": {
-    "@shrine/header": "*",
-    "@shrine/footer": "*",
-    "@shrine/util": "*",
-    "react": "^0.14.6"
+    "@shrine/indexView": "*",
+    "@shrine/detailsView": "*",
+    "react": "^0.14.7",
+    "react-dom": "^0.14.7",
+    "react-router": "^2.0.0-rc5"
   },
   "license": "Zlib"
 }

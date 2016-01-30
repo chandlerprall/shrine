@@ -1,0 +1,11 @@
+{
+  "name": "@shrine/detailsView",
+  "version": "1.0.0",
+  "description": "details view",
+  "main": "DetailsView.jsx",
+  "private": true,
+  "dependencies": {
+    "react": "^0.14.7"
+  },
+  "license": "Zlib"
+}

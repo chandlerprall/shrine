@@ -1,0 +1,11 @@
+{
+  "name": "@shrine/indexView",
+  "version": "1.0.0",
+  "description": "index view",
+  "main": "IndexView.jsx",
+  "private": true,
+  "dependencies": {
+    "react": "^0.14.7"
+  },
+  "license": "Zlib"
+}
