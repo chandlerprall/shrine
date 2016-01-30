@@ -1,5 +1,6 @@
 import {execSync, spawn} from 'child_process';
 import path from 'path';
+import rmdir from 'rmdir';
 import findup from 'findup-sync';
 import through2 from 'through2';
 import gulp from 'gulp';
@@ -92,12 +93,13 @@ gulp.task('copy-entry-module', ['transpile-src'], () =>
 		.pipe(gulp.dest(DEPLOY_DIR))
 );
 
-gulp.task('install-dependencies', ['copy-entry-module'], () => {
+gulp.task('install-dependencies', ['copy-entry-module'], (cb) => {
 	// remove the existing `node_modules/MODULE_PREFIX` directory to make way for changes
-	execSync(`rm -rf ${path.join('node_modules', MODULE_PREFIX)}`, {cwd: DEPLOY_DIR});
-
-	// install all dependencies, custom and external
-	execSync('npm install', {cwd: DEPLOY_DIR});
+	rmdir(path.join(DEPLOY_DIR, 'node_modules', MODULE_PREFIX), () => {
+		// install all dependencies, custom and external
+		execSync('npm install', {cwd: DEPLOY_DIR});
+		cb();
+	});
 });
 
 gulp.task('build', ['install-dependencies'], () =>

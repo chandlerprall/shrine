@@ -37,6 +37,10 @@
     "gulp-rename": "^1.2.2",
     "gulp-util": "^3.0.7",
     "mocha": "^2.4.4",
+    "rmdir": "^1.2.0",
     "through2": "^2.0.0"
+  },
+  "dependencies": {
+    "express": "^4.13.4"
   }
 }

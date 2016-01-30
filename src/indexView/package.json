@@ -5,7 +5,8 @@
   "main": "IndexView.jsx",
   "private": true,
   "dependencies": {
-    "react": "^0.14.7"
+    "react": "^0.14.7",
+    "react-router": "^2.0.0-rc5"
   },
   "license": "Zlib"
 }
