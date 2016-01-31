@@ -1,25 +1,24 @@
 import React from 'react';
 import {render} from 'react-dom';
 import {Router, Route, Link, browserHistory} from 'react-router';
-import IndexView from '@shrine/indexView';
-import DetailsView from '@shrine/detailsView';
+import {routes} from './routes';
 
-function AppView() {
+export default function AppView({children}) {
 	return (
 		<div>
-			<h1>webbundle recipe</h1>
-			<Router history={browserHistory}>
-				<Route path="/" component={IndexView}/>
-				<Route path="/details" component={DetailsView}/>
-			</Router>
+			<h1>universalbundle recipe</h1>
+			{children}
 		</div>
 	);
 }
 
 AppView.displayName = 'AppView';
 
-// bootstrap the application
-render(
-	React.createElement(AppView),
-	document.querySelector('#container')
-);
+export const exports = {
+	React,
+	render,
+	AppView,
+	routes,
+	Router,
+	browserHistory
+};

@@ -104,7 +104,7 @@ gulp.task('install-dependencies', ['copy-entry-module'], (cb) => {
 
 gulp.task('build', ['install-dependencies'], () =>
 	gulp.src(path.join(DEPLOY_DIR, 'AppView.js'))
-		.pipe(browserify())
+		.pipe(browserify({standalone: 'app'})) // specify `standalone` to so bundle's entry point is exported
 		.pipe(rename('bundle.js'))
 		.pipe(gulp.dest(path.join(PUBLIC_DIR)))
 );

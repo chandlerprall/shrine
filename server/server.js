@@ -1,13 +1,47 @@
 var fs = require('fs');
+var React = require('react');
+var reactDomServer = require('react-dom/server');
+var express = require('express');
+var reactRouter = require('react-router');
 var pageTemplate = fs.readFileSync('template.html').toString();
 
-var express = require('express');
+// load react-router routes
+var bundle = require('./public/bundle');
+var routes = bundle.exports.routes;
+
+// start server
 var app = express();
 
 app.use(express.static('public'));
 
 app.get('*', function (req, res) {
-    res.send(pageTemplate);
+	reactRouter.match(
+		{
+			routes: routes,
+			location: req.url
+		},
+		(error, redirectLocation, renderProps) => {
+			if (error) {
+				res.status(500).send(error.message);
+			} else if (redirectLocation) {
+				res.redirect(302, redirectLocation.pathname + redirectLocation.search);
+			} else if (renderProps) {
+				res.status(200).send(
+					pageTemplate.replace(
+						'${prerendered}',
+						reactDomServer.renderToString(
+							React.createElement(
+								reactRouter.RouterContext,
+								renderProps
+							)
+						)
+					)
+				);
+			} else {
+				res.status(404).send('Not found');
+			}
+		}
+	);
 });
 
 app.listen(3000, function () {

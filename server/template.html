@@ -7,8 +7,18 @@
 </head>
 
 <body>
-    <div id="container"></div>
-    <script type="text/javascript" src="/bundle.js"></script>
+    <div id="container">${prerendered}</div>
+	<script type="text/javascript" src="/bundle.js"></script>
+	<script type="text/javascript">
+		app.exports.render(
+			app.exports.React.createElement(
+				app.exports.Router,
+				{history: app.exports.browserHistory},
+				app.exports.routes
+			),
+			document.querySelector('#container')
+		);
+	</script>
 </body>
 
 </html>
