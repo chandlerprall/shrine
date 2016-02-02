@@ -1,4 +1,5 @@
 node_modules
 build
 server/public/bundle.js
+server/public/bundle.css
 .idea

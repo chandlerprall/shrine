@@ -1,0 +1,8 @@
+{
+  "name": "@shrine/global-css",
+  "version": "1.0.0",
+  "description": "global, non-scoped css",
+  "private": true,
+  "license": "Zlib",
+  "encapsulateOptOut": true
+}

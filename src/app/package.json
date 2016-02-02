@@ -5,6 +5,7 @@
   "main": "AppView.jsx",
   "private": true,
   "dependencies": {
+    "@shrine/global-css": "*",
     "@shrine/indexView": "*",
     "@shrine/detailsView": "*",
     "react": "^0.14.7",

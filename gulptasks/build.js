@@ -9,6 +9,9 @@ import rename from 'gulp-rename';
 import browserify from 'gulp-browserify';
 import gulpif from 'gulp-if';
 import babel from 'gulp-babel';
+import encapsulateCss from 'gulp-encapsulate-css';
+import sass from 'gulp-sass';
+import concatCss from 'gulp-concat-css';
 import {MODULE_PREFIX, ENTRY_MODULE, SRC_DIR, SERVER_DIR, PUBLIC_DIR, MODULES_BUILD_DIR, DEPLOY_DIR} from './build-constants.js';
 
 /**
@@ -19,6 +22,16 @@ import {MODULE_PREFIX, ENTRY_MODULE, SRC_DIR, SERVER_DIR, PUBLIC_DIR, MODULES_BU
 function isJsFile(file) {
 	const extname = path.extname(file.path);
 	return extname === '.js' || extname === '.jsx';
+}
+
+/**
+ * Tests if the file's extension is .scss
+ * @param file
+ * @returns {boolean}
+ */
+function isScssFile(file) {
+	const extname = path.extname(file.path);
+	return extname === '.scss';
 }
 
 /**
@@ -76,15 +89,16 @@ function updateModulesPackages() {
 	});
 }
 
-gulp.task('transpile-src', [], () =>
+gulp.task('transpile-src', () =>
 	gulp.src(path.join(SRC_DIR, '**', '*'), {nodir: true})
+		.pipe(gulpif(isJsFile, babel()))
+		//.pipe(gulpif(isScssFile, encapsulateCss({optKey: 'encapsulateOptOut'})))
+		.pipe(gulpif(isPackageJsonFile, updateModulesPackages()))
 		.pipe(rename((filepath) => {
 			const pkgLocation = findup('package.json', {cwd: path.join(SRC_DIR, filepath.dirname)});
 			const {name: moduleName} = require(pkgLocation);
 			filepath.dirname = moduleName;
 		}))
-		.pipe(gulpif(isJsFile, babel()))
-		.pipe(gulpif(isPackageJsonFile, updateModulesPackages()))
 		.pipe(gulp.dest(MODULES_BUILD_DIR))
 );
 
@@ -102,12 +116,22 @@ gulp.task('install-dependencies', ['copy-entry-module'], (cb) => {
 	});
 });
 
-gulp.task('build', ['install-dependencies'], () =>
+gulp.task('build-js', ['install-dependencies'], () =>
 	gulp.src(path.join(DEPLOY_DIR, 'AppView.js'))
 		.pipe(browserify({standalone: 'app'})) // specify `standalone` to so bundle's entry point is exported
 		.pipe(rename('bundle.js'))
 		.pipe(gulp.dest(path.join(PUBLIC_DIR)))
 );
+
+gulp.task('build-scss', ['install-dependencies'], () =>
+	gulp.src(path.join(DEPLOY_DIR, '**', '*.scss'))
+		.pipe(sass())
+		.pipe(encapsulateCss({optKey: 'encapsulateOptOut'}))
+		.pipe(concatCss('bundle.css'))
+		.pipe(gulp.dest(path.join(PUBLIC_DIR)))
+);
+
+gulp.task('build', ['build-js', 'build-scss']);
 
 gulp.task('start-server', ['build'], () => {
 	spawn(
