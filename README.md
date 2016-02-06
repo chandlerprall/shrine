@@ -11,6 +11,14 @@ Having to create and maintain these modules as separate entities does add a burd
 
 To avoid publishing all of the modules, Shrine's build step restructures them in a way npm can understand without the need to publish anything, and can still use external modules from the npm repository. This gives all of the benefits we've found with modules but greatly reduces the pain of developing them.
 
+## Recipes
+
+To better demonstrate how a monorepo can be used there are a couple recipes, each one a little more complicated.
+
+[webbundle](https://github.com/chandlerprall/shrine/tree/recipe/webbundle) - uses browserify to generate a bundle that is rendered only on the client
+[universalbundle](https://github.com/chandlerprall/shrine/tree/recipe/universalbundle) - runs a node server to run the generated bundle on the server for isomorphic/universal rendering
+[scoped-jsx-scss](https://github.com/chandlerprall/shrine/tree/recipe/scoped-jsx-scss) - uses [JSX](https://github.com/Craftsy/babel-plugin-encapsulate-jsx) and [CSS](https://github.com/Craftsy/encapsulate-css) encapsulation to automatically scope CSS to React components, allowing much cleaner styling
+
 ## Building
 Building creates a `build/deploy` directory which is the final result of assembling custom modules and installing any external dependencies. This directory is immediately ready to `require` in node or bundle with your favorite tool such as [webpack](https://webpack.github.io/) or [Browserify](http://browserify.org/). 
 
