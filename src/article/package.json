@@ -1,0 +1,12 @@
+{
+  "name": "@shrine/article",
+  "version": "1.0.0",
+  "description": "displays an article",
+  "main": "ArticleView.jsx",
+  "private": true,
+  "dependencies": {
+    "react": "^0.14.7",
+    "react-router": "^2.0.0-rc5"
+  },
+  "license": "Zlib"
+}

@@ -1,13 +1,25 @@
 import React from 'react';
 import {Link} from 'react-router';
+import Article from '@shrine/article';
+import Summary from '@shrine/summary';
 
 export default function DetailsView() {
 	return (
 		<div>
-			<p>This recipe takes the webbundle recipe further by introducing server-side rendering. After the bundle is generated it is used by both the node server and client-side in the browser to enable an SEO-friendly Single Page App.</p>
-			<p>While a lot of the changes for this recipe are to the server itself, a few modifications are made to the react-router setup in @shrine/app. Most notably the module separately defines the application routes and exports a few react &amp; react-router modules for use by template.html in the browser.</p>
-			<p>The build process itself has only one modification from the webbundle recipe: passing the `standalone` configuration option to browserify which allows the entry point (@shrine/app) to be used in an external module - in this case the client-side bootstraping code.</p>
-			<p>CSS styles are still served from a single file in the server's public directory.</p>
+			<p>encapsulate works by automatically adding the module's name and version to JSX classNames and CSS selectors. For example, the Summary JSX and CSS is transformed to</p>
+
+			<pre dangerouslySetInnerHTML={{__html:`&lt;div className=&quot;_shrine_summary_1_0_0&quot;&gt;
+    &lt;h1 className=&quot;_shrine_summary_1_0_0&quot;&gt;{title}&lt;/h1&gt;
+    &lt;p className=&quot;_shrine_summary_1_0_0&quot;&gt;{content}&lt;/p&gt;
+&lt;/div&gt;`}}></pre>
+
+			<pre dangerouslySetInnerHTML={{__html:`h2._shrine_summary_1_0_0 {
+    font-size: 14px;
+    margin: 5px 0;
+}`}}></pre>
+
+			<p>This scoping prevents modules from styling any content outside of itself. It keeps the source CSS simple and easy to work with while also providing peace of mind for developers as it is now impossible to break the CSS of another module.</p>
+
 			<Link to="/">back home</Link>
 		</div>
 	);

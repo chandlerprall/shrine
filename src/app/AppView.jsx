@@ -6,7 +6,7 @@ import {routes} from './routes';
 export default function AppView({children}) {
 	return (
 		<div>
-			<h1>universalbundle recipe</h1>
+			<h1>scoped-jsx-scss recipe</h1>
 			{children}
 		</div>
 	);

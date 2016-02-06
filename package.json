@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "Boilerplate monolith repo for modular JavaScript development",
   "scripts": {
-    "build-src": "node ./node_modules/babel-cli/bin/babel-node ./node_modules/.bin/gulp",
     "test": "find . -name '*.test.js' | xargs ./node_modules/.bin/mocha --compilers js:babel-register"
   },
   "repository": {
