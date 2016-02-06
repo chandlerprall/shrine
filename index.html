@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Shrine by chandlerprall</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>Shrine</h1>
+        <h2>Boilerplate mono repo for modular JavaScript development</h2>
+        <a href="https://github.com/chandlerprall/shrine" class="button"><small>View project on</small> GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>
+<a id="shrine" class="anchor" href="#shrine" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Shrine</h1>
+
+<p>This repo demonstrates how to setup and build many custom modules from a single repository. The build process is barebones for simplicity and to easily allow customization. You can fork Shrine as a starting point or copy its principles in your own project.</p>
+
+<p>The example modules in the <code>src</code> folder use React only to show support for external modules, there is absolutely no requirement or constraint on external npm modules you want to use.</p>
+
+<h2>
+<a id="why" class="anchor" href="#why" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Why</h2>
+
+<p>I strongly believe that individually managed modules are an incredibly powerful asset to any codebase. We've seen the tremendous impact npm has had on the JavaScript community, and use of modules is not restricted to node, but thanks to projects like webpack and Browserify they can be bundled up for use in the browser as well.</p>
+
+<p>Having to create and maintain these modules as separate entities does add a burden on the developer, one of the most painful I've experienced is the need to constantly publish my custom modules to a private repository even though they are only used in my project - <code>npm publish</code> does a lot and is an expensive operation.</p>
+
+<p>To avoid publishing all of the modules, Shrine's build step restructures them in a way npm can understand without the need to publish anything, and can still use external modules from the npm repository. This gives all of the benefits we've found with modules but greatly reduces the pain of developing them.</p>
+
+<h2>
+<a id="recipes" class="anchor" href="#recipes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Recipes</h2>
+
+<p>To better demonstrate how a monorepo can be used there are a couple recipes, each one a little more complicated.</p>
+
+<ul>
+<li>
+<a href="https://github.com/chandlerprall/shrine/tree/recipe/webbundle">webbundle</a> - uses browserify to generate a bundle that is rendered only on the client</li>
+<li>
+<a href="https://github.com/chandlerprall/shrine/tree/recipe/universalbundle">universalbundle</a> - runs a node server to run the generated bundle on the server for isomorphic/universal rendering</li>
+<li>
+<a href="https://github.com/chandlerprall/shrine/tree/recipe/scoped-jsx-scss">scoped-jsx-scss</a> - uses <a href="https://github.com/Craftsy/babel-plugin-encapsulate-jsx">JSX</a> and <a href="https://github.com/Craftsy/encapsulate-css">CSS</a> encapsulation to automatically scope CSS to React components, allowing much cleaner styling</li>
+</ul>
+
+<h2>
+<a id="building" class="anchor" href="#building" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Building</h2>
+
+<p>Building creates a <code>build/deploy</code> directory which is the final result of assembling custom modules and installing any external dependencies. This directory is immediately ready to <code>require</code> in node or bundle with your favorite tool such as <a href="https://webpack.github.io/">webpack</a> or <a href="http://browserify.org/">Browserify</a>. </p>
+
+<ol>
+<li><code>$ cd shrine</code></li>
+<li><code>$ npm install</code></li>
+<li><code>$ gulp build</code></li>
+</ol>
+
+<h2>
+<a id="running-tests" class="anchor" href="#running-tests" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Running tests</h2>
+
+<p>Tests are run via <code>$ npm test</code></p>
+
+<p><code>npm install</code> will include a local copy of <a href="https://mochajs.org/">Mocha</a> which is used to run any test files in the form of <code>*.test.js</code>, for example <a href="https://github.com/chandlerprall/shrine/tree/master/src/util/tests/util.test.js">util.test.js</a>.</p>
+
+<h2>
+<a id="custom-modules" class="anchor" href="#custom-modules" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Custom modules</h2>
+
+<p>When working with custom modules there is a very real chance your name will conflict with one of the 230k modules in npm. To avoid this, the custom modules are prefixed with the <code>@shrine</code> scope; for example the <a href="https://github.com/chandlerprall/shrine/blob/master/src/app/package.json"><code>app</code> module's name</a> is <code>@shrine/app</code>. This scope is configurable (see below). The <code>package.json</code> files also set <code>"private": true</code> which will prevent accidental publishing to npm.</p>
+
+<p>The only constraint on where custom modules can live is that they must all be in one parent directory that contains only your modules. They can be anywhere inside of this directory and nested however you'd like. To show this, the <code>footer</code> and <code>header</code> modules are nested in <code>src/supportingviews</code>.</p>
+
+<h2>
+<a id="configuration" class="anchor" href="#configuration" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Configuration</h2>
+
+<p>There are a couple configuration values you can change in <a href="https://github.com/chandlerprall/shrine/blob/master/gulptasks/build-constants.js">gulptasks/build-constants.js</a>:</p>
+
+<ul>
+<li>
+<code>MODULE_PREFIX</code> tells the build process what custom scope is used</li>
+<li>
+<code>ENTRY_MODULE</code> full, scoped module name of your application's entry point</li>
+<li>
+<code>SRC_DIR</code> directory in the repository where your custom modules live</li>
+<li>
+<code>BUILD_DIR</code> output directory of all build processes</li>
+<li>
+<code>MODULES_BUILD_DIR</code> before being installed alongside the entry point, this is where your modules are built</li>
+<li>
+<code>DEPLOY_DIR</code> final output directory of the application and all supporting <code>node_modules</code>
+</li>
+</ul>
+
+<h2>
+<a id="build-process" class="anchor" href="#build-process" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Build process</h2>
+
+<p>The build process is broken down into three steps.</p>
+
+<h3>
+<a id="transpile-src" class="anchor" href="#transpile-src" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>transpile-src</h3>
+
+<p>Transpiling involves flattening the <code>src</code> directory so the custom modules end up in a predictable location, similar to how a <code>node_modules</code> contents appear. During this step babel is run to convert from ES6/jsx-harmony -&gt; ES5 and some transforms are applied to the <code>package.json</code> files to account for the transpiling.</p>
+
+<h3>
+<a id="copy-entry-module" class="anchor" href="#copy-entry-module" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>copy-entry-module</h3>
+
+<p>After the modules have been transpiled the app's entry point is copied to the deploy directory</p>
+
+<h3>
+<a id="build" class="anchor" href="#build" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>build</h3>
+
+<p>Everything is now in place and <code>npm install</code> is executed on the deploy directory. This starts with your entry module and uses npm's dependency tree to install the appropriate modules, both custom and external.</p>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/chandlerprall/shrine/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/chandlerprall/shrine/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/chandlerprall/shrine"></a> is maintained by <a href="https://github.com/chandlerprall">chandlerprall</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+            <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-73392449-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
