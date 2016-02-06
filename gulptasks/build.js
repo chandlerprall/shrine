@@ -92,7 +92,6 @@ function updateModulesPackages() {
 gulp.task('transpile-src', () =>
 	gulp.src(path.join(SRC_DIR, '**', '*'), {nodir: true})
 		.pipe(gulpif(isJsFile, babel()))
-		//.pipe(gulpif(isScssFile, encapsulateCss({optKey: 'encapsulateOptOut'})))
 		.pipe(gulpif(isPackageJsonFile, updateModulesPackages()))
 		.pipe(rename((filepath) => {
 			const pkgLocation = findup('package.json', {cwd: path.join(SRC_DIR, filepath.dirname)});

@@ -1,8 +1,13 @@
-# universal recipe
+# scoped-jsx-css recipe
 
-Further extending the [webbundle recipe](https://github.com/chandlerprall/shrine/tree/recipe/webbundle) which ran the bundled application only in the browser, the universalbundle also runs the application in node to deliver pre-rendered content to the browser.
+What fun are modules if you can't use them to make your code better? The scoped-jsx-scss recipe demonstrates how your JSX and CSS code can be coupled together, providing some awesome benefits:
 
-Key changes to `webbundle` are:
-1. `@shrine/app` module separately defines the applications routes and exports some `react` and `react-router` modules so the client-side bootstrap code can live in `template.html` instead of `AppView.jsx`
-2. The build script has one modification: adding the `standalone` browserify configuration so the bundle can properly export a few modules needed in client-side rendering.
-3. `server.js` imports the bundle and passes all requests through to the application..
+* your CSS (or SCSS, LESS, etc) stays simple as can be
+* it is impossible to accidentally style code outside of your module
+* clean, enforced separation of concern means concentrating on the right scope
+
+Running the recipe (`gulp start-server`) provides a live demo of this unique approach to styling.
+
+The scoped-jsx-scss recipe makes two changes two the build:
+1. an additional Babel plugin is used, [babel-plugin-encapsulate-jsx](https://github.com/Craftsy/babel-plugin-encapsulate-jsx)
+2. the modules' SCSS files are transpiled to css, encapsulated with [gulp-encapsulate-css](https://github.com/Craftsy/gulp-encapsulate-css), and saved as bundle.css 
