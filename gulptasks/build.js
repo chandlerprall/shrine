@@ -89,6 +89,7 @@ function updateModulesPackages() {
 	});
 }
 
+const packageRebasing = new RegExp(`^.*?(\\${path.sep}|$)`);
 gulp.task('transpile-src', () =>
 	gulp.src(path.join(SRC_DIR, '**', '*'), {nodir: true})
 		.pipe(gulpif(isJsFile, babel()))
@@ -96,7 +97,7 @@ gulp.task('transpile-src', () =>
 		.pipe(rename((filepath) => {
 			const pkgLocation = findup('package.json', {cwd: path.join(SRC_DIR, filepath.dirname)});
 			const {name: moduleName} = require(pkgLocation);
-			filepath.dirname = moduleName;
+			filepath.dirname = path.join(moduleName, filepath.dirname.replace(packageRebasing, ''));
 		}))
 		.pipe(gulp.dest(MODULES_BUILD_DIR))
 );
