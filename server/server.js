@@ -1,9 +1,7 @@
-var fs = require('fs');
 var React = require('react');
 var reactDomServer = require('react-dom/server');
 var express = require('express');
 var reactRouter = require('react-router');
-var pageTemplate = fs.readFileSync('template.html').toString();
 
 // load react-router routes
 var bundle = require('./public/bundle');
@@ -27,13 +25,10 @@ app.get('*', function (req, res) {
 				res.redirect(302, redirectLocation.pathname + redirectLocation.search);
 			} else if (renderProps) {
 				res.status(200).send(
-					pageTemplate.replace(
-						'${prerendered}',
-						reactDomServer.renderToString(
-							React.createElement(
-								reactRouter.RouterContext,
-								renderProps
-							)
+					'<!DOCTYPE html>' + reactDomServer.renderToString(
+						React.createElement(
+							reactRouter.RouterContext,
+							renderProps
 						)
 					)
 				);

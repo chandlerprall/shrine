@@ -6,12 +6,12 @@ import through2 from 'through2';
 import gulp from 'gulp';
 import gulputil from 'gulp-util';
 import rename from 'gulp-rename';
-import browserify from 'gulp-browserify';
 import gulpif from 'gulp-if';
 import babel from 'gulp-babel';
 import encapsulateCss from 'gulp-encapsulate-css';
 import sass from 'gulp-sass';
 import concatCss from 'gulp-concat-css';
+import webpack from 'webpack-stream';
 import {MODULE_PREFIX, ENTRY_MODULE, SRC_DIR, SERVER_DIR, PUBLIC_DIR, MODULES_BUILD_DIR, DEPLOY_DIR} from './build-constants.js';
 
 /**
@@ -116,8 +116,8 @@ gulp.task('install-dependencies', ['copy-entry-module'], (cb) => {
 });
 
 gulp.task('build-js', ['install-dependencies'], () =>
-	gulp.src(path.join(DEPLOY_DIR, 'AppView.js'))
-		.pipe(browserify({standalone: 'app'})) // specify `standalone` so bundle's entry point is exported
+	gulp.src(path.join(DEPLOY_DIR, 'App.js'))
+		.pipe(webpack(require('../webpack.config')))
 		.pipe(rename('bundle.js'))
 		.pipe(gulp.dest(path.join(PUBLIC_DIR)))
 );

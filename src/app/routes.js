@@ -5,9 +5,7 @@ import AppView from './AppView';
 import IndexView from '@shrine/indexView';
 import DetailsView from '@shrine/detailsView';
 
-const isInBrowser = typeof document !== 'undefined';
-
-export let routes = (
+export default (
 	<Route path="/" component={AppView}>
 		<IndexRoute component={IndexView}/>
 		<Route path="/details" component={DetailsView}/>

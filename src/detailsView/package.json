@@ -6,7 +6,7 @@
   "private": true,
   "dependencies": {
     "react": "^0.14.7",
-    "react-router": "^2.0.0-rc5",
+    "react-router": "^2.0.1",
     "@shrine/article": "*",
     "@shrine/summary": "*"
   },

@@ -2,7 +2,7 @@
   "name": "@shrine/app",
   "version": "1.0.0",
   "description": "entry point of application",
-  "main": "AppView.jsx",
+  "main": "App.js",
   "private": true,
   "dependencies": {
     "@shrine/global-css": "*",
@@ -10,7 +10,7 @@
     "@shrine/detailsView": "*",
     "react": "^0.14.7",
     "react-dom": "^0.14.7",
-    "react-router": "^2.0.0-rc5"
+    "react-router": "^2.0.1"
   },
   "license": "Zlib"
 }

@@ -5,10 +5,29 @@ import {routes} from './routes';
 
 export default function AppView({children}) {
 	return (
-		<div>
-			<h1>scoped-jsx-scss recipe</h1>
-			{children}
-		</div>
+		<html>
+			<head>
+				<title>scoped-jsx-scss recipe</title>
+				<link rel="stylesheet" type="text/css" href="/bundle.css"/>
+			</head>
+
+			<body>
+				<h1>scoped-jsx-scss recipe</h1>
+				{children}
+
+				<script type="text/javascript" src="/bundle.js"></script>
+				<script type="text/javascript" dangerouslySetInnerHTML={{__html:`
+					BundledApp.exports.render(
+						BundledApp.exports.React.createElement(
+							BundledApp.exports.Router,
+							{history: BundledApp.exports.browserHistory},
+							BundledApp.exports.routes
+						),
+						document
+					);
+				`}}></script>
+			</body>
+		</html>
 	);
 }
 
