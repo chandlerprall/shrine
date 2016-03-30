@@ -44,6 +44,31 @@ function isPackageJsonFile(file) {
 	return filename === 'package.json';
 }
 
+function rebaseModuleStyles() {
+	const RESOLVED_MODULES_BUILD_DIR = path.resolve(MODULES_BUILD_DIR);
+	const moduleRegex = new RegExp(`${MODULE_PREFIX}\/`, 'g');
+
+	return through2.obj(function(file, enc, cb) {
+		if (file.isNull()) {
+			cb(null, file);
+			return;
+		}
+
+		if (file.isStream()) {
+			cb(new gutil.PluginError('rebaseModuleStyles', 'Streaming not supported'));
+			return;
+		}
+
+		const fileContents = file.contents.toString();
+		const rebasedContents = fileContents.replace(moduleRegex, `${RESOLVED_MODULES_BUILD_DIR}${path.sep}${MODULE_PREFIX}${path.sep}`);
+
+		file.contents = new Buffer(rebasedContents);
+		this.push(file);
+
+		cb();
+	});
+}
+
 /**
  * gulp plugin to update a custom module's package.json in two ways:
  * 1. if the package's `main` field points to a `.jsx` file rename it to a `.js` extension to match Babel's output
@@ -93,6 +118,7 @@ const packageRebasing = new RegExp(`^.*?(\\${path.sep}|$)`);
 gulp.task('transpile-src', () =>
 	gulp.src(path.join(SRC_DIR, '**', '*'), {nodir: true})
 		.pipe(gulpif(isJsFile, babel()))
+		.pipe(gulpif(isScssFile, rebaseModuleStyles()))
 		.pipe(gulpif(isPackageJsonFile, updateModulesPackages()))
 		.pipe(rename((filepath) => {
 			const pkgLocation = findup('package.json', {cwd: path.join(SRC_DIR, filepath.dirname)});
